@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-8d#a8--eqr!saabf()er+6a4h%d+ly6+cs#m1u(nfxyo89ly6y
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTH_USER_MODEL = 'newsapp.NewsUser'
 
 
 # Application definition
@@ -39,11 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'newsapp',
     'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
