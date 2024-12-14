@@ -1,14 +1,14 @@
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_204_NO_CONTENT
+from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
+from django.contrib.auth import login, authenticate, logout
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import NewsUser
 
 class Sign_up(APIView):
-    permission_classes = [AllowAny] 
 
     def post(self, request):
         request.data["username"] = request.data["email"]
@@ -20,7 +20,6 @@ class Sign_up(APIView):
             return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
 
 class Log_in(APIView):
-    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.data.get("email")
@@ -28,6 +27,7 @@ class Log_in(APIView):
         
         user = authenticate(username=email, password=password)
         if user:
+            login(request, user)
             token, created = Token.objects.get_or_create(user=user)
             return Response({"token": token.key, "user": user.email}, status=HTTP_200_OK)
         else:

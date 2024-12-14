@@ -50,11 +50,11 @@ function RegistrationForm() {
           value={registration}
           onChange={(e) => setRegistration(e.target.checked)}
           type="checkbox"
-          label="Register"
+          label="check to register if new user, else just LogIn"
         />
       </Form.Group>
       <Button variant="primary" type="submit">
-        Submit
+        LogIn
       </Button>
     </Form>
   );

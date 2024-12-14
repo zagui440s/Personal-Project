@@ -6,6 +6,7 @@ export const api = axios.create({
 
 export const userRegistration = async (formData) => {
   const { email, password, registration } = formData;
+  console.log(`Sending request to users/${registration ? "signup/" : "login/"}`); // Add this line 
   let response = await api.post(
     `users/${registration ? "signup/" : "login/"}`,
     {
