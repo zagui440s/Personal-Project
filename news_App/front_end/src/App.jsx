@@ -5,26 +5,6 @@ import NavBar from "./components/NavBar";
 
 
 function App() {
-  // const testConnection = async() => {
-  //   let response = await axios.get("http://127.0.0.1:8000/")
-  //   if (!response.data.connected){
-  //     console.log("not communicating with server")
-  //   }
-  //   else{
-  //     console.log("communication established with server")
-  //   }
-  // }
-
-  // useEffect(()=>{
-  //   testConnection()
-  // }, [])
-
-  // useEffect(() => {
-  //   const grabUser = async () => {
-  //     setUser(await getInfo());
-  //   };
-  //   grabUser();
-  // }, []);
 
   const [user, setUser] = useState(useLoaderData());
   const navigate = useNavigate()
