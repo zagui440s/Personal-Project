@@ -21,8 +21,12 @@ const LogInPage = () => {
     // Attempt to log in
     const user = await userRegistration(formData);
     
-    if (user) {
-      // If successful, redirect to home page or dashboard
+    if (user && user.token) {
+      // Save the token and login state to localStorage
+      localStorage.setItem("token", user.token);
+      localStorage.setItem("isLoggedIn", true);
+
+      // Redirect to the home page or dashboard
       navigate("/");
     } else {
       // If login fails, set the error message

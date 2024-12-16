@@ -27,4 +27,5 @@ urlpatterns = [
     path("", test_connection),
     path("admin/", admin.site.urls),
     path("api/v1/users/", include("newsapp.urls")),
+    path("api/v1/location/", include('location_api.urls'))
 ]
