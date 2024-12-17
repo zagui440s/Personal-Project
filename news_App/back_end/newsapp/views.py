@@ -9,6 +9,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import NewsUser
+from userLocation_App.models import UserLocation
 
 class Sign_up(APIView):
 
@@ -17,6 +18,9 @@ class Sign_up(APIView):
         try:
             user = NewsUser.objects.create_user(**request.data)
             token = Token.objects.create(user=user)
+            user_location = UserLocation(user=user, city="atx", region="texas", country="usa", latitude=22222222.222, longitude=22222222.22)
+            user_location.full_clean()
+            user_location.save()
             return Response({"user": user.email, "token": token.key}, status=HTTP_201_CREATED)
         except Exception as e:
             return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)

@@ -18,14 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import JsonResponse
 
-
 def test_connection(request):
     return JsonResponse({"connected": True})
 
-
 urlpatterns = [
-    path("", test_connection),
+    path("", test_connection),  # Base route for testing connection
     path("admin/", admin.site.urls),
-    path("api/v1/users/", include("newsapp.urls")),
-    path("api/v1/location/", include('location_api.urls'))
+    path("api/v1/users/", include("newsapp.urls")),  # User-related endpoints
+    path("api/v1/location/", include("userLocation_App.urls")),  # Location-related endpoints
 ]
