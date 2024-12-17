@@ -6,3 +6,4 @@ from .views import get_user_location
 urlpatterns = [
     path("", get_user_location.as_view(), name='get_user_location'),
 ]
+ 
