@@ -6,13 +6,12 @@ import requests
 from django.http import JsonResponse
 
 class get_user_location(APIView):
-    # Apply token authentication and permission checking
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        print("heloo")
-        # Return user information (email and age)
+        print("hello")
+    
         user_info = {"email": request.user.email}
         try:
             response = requests.get("http://ip-api.com/json/?fields=61439")
