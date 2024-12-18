@@ -41,7 +41,7 @@ export const getInfo = async() => {
     api.defaults.headers.common['Authorization'] = `Token ${token}`
     let response = await api.get("users/info/")
     if (response.status === 200){
-      return response.data.email
+      return response.data
     }
     return null
   }

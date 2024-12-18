@@ -1,12 +1,3 @@
-// const HomePage = () => {
-//     return (
-//         <>
-//             <h1>Home Page</h1>
-//         </>
-//     );
-// };
-
-// export default HomePage;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -58,17 +49,6 @@ const HomePage = () => {
   return (
     <div>
       <h1>Home Page</h1>
-      {location ? (
-        <div>
-          <h2>Your Location:</h2>
-          <p>City: {location.city}</p>
-          <p>Region: {location.regionName}</p>
-          <p>Country: {location.country}</p>
-          <p>IP Address: {location.query}</p>
-        </div>
-      ) : (
-        <p>Location data unavailable.</p>
-      )}
     </div>
   );
 };

@@ -24,9 +24,11 @@ function App() {
 
   return (
     <>
-      <h1>Welcome {user && user}</h1>
-      <NavBar user={user} setUser={setUser} />
       <Outlet context={{ user, setUser }} />
+      <NavBar user={user} setUser={setUser} />
+      <h3>Welcome {user?.email && user.email}</h3>
+      <h5>Welcome {user?.user_location.latitude}</h5>
+      <h5>Welcome {user?.user_location.longitude}</h5>
     </>
   );
 }
