@@ -1,5 +1,4 @@
 # NewsUser VIEWS*******
-
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,29 +14,19 @@ import requests
 
 class Sign_up(APIView):
     def post(self, request):
-        request.data["username"] = request.data["email"]  # Ensure username matches email
+        request.data["username"] = request.data["email"]
         try:
-            # Step 1: Create the user
             user = NewsUser.objects.create_user(**request.data)
-
-            # Step 2: Generate a token for the user
             token = Token.objects.create(user=user)
-
-            # Step 3: Infer location using IP address
             location_data = get_location_from_ip(request)
-
-            # Step 4: Create UserLocation with inferred data
             user_location = UserLocation(user=user, **location_data)
             user_location.full_clean()
             user_location.save()
 
-            # Step 5: Serialize the new user
             serialized_user = NewsUserSerializer(user).data
 
-            # Step 6: Return response with user and token
             return Response({"user": serialized_user, "token": token.key}, status=HTTP_201_CREATED)
         except Exception as e:
-            # Handle errors gracefully
             print(f"Error during signup: {e}")
             return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
 
@@ -45,7 +34,7 @@ class Sign_up(APIView):
 # Helper function to get location from IP
 def get_location_from_ip(request):
     ip = get_client_ip(request)
-    print("HSDHSHSHSHSHSHSHSHS LINE 48", ip)
+    print("get_location func within views.py LINE 48", ip)
     if ip:
         try:
             response = requests.get("https://ipinfo.io/75.49.124.40/json")
@@ -108,6 +97,8 @@ class Info(APIView):
     
         serialized_user = NewsUserSerializer(request.user).data 
         return Response(serialized_user, status=HTTP_200_OK)
+    
+    # MAYBE INFO PUT ******8PUT HERE???  TO UPDATE INFO/LOCATION
 
 class Log_out(APIView):
     authentication_classes = [TokenAuthentication]

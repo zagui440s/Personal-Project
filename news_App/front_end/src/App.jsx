@@ -34,6 +34,9 @@ function App() {
         {/* <h5>ID: {user?.id}</h5>
         <h5>Last Login: {user?.last_login ? user.last_login : "Never"}</h5> */}
         <LocationSelector selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+        <div className="articles-placeholder">
+          <h2>Articles</h2>
+        </div>
       </div>
     </>
   );
