@@ -15,7 +15,7 @@ const LogInPage = () => {
     let formData = {
       email: email,
       password: password,
-      registration: false, // Ensure login endpoint is used
+      registration: false, 
     };
     
     // Attempt to log in
@@ -25,6 +25,8 @@ const LogInPage = () => {
       // Save the token and login state to localStorage
       localStorage.setItem("token", user.token);
       localStorage.setItem("isLoggedIn", true);
+      
+      setUser(response.user);
 
       // Redirect to the home page or dashboard
       navigate("/");

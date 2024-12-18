@@ -93,7 +93,9 @@ class Log_in(APIView):
         if user:
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key, "user": user.email}, status=HTTP_200_OK)
+            user_location = UserLocation.objects.get(user=user)
+            serialized_user = NewsUserSerializer(user).data
+            return Response({"token": token.key, "user": serialized_user}, status=HTTP_200_OK)
         else:
             return Response({"error": "No user matching credentials, newsapp/ views.py, line 41"}, status=HTTP_404_NOT_FOUND)
 
