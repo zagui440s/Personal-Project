@@ -15,13 +15,9 @@ class get_user_api_location(APIView):
 
     def get(self, request):
         # //body, data, make locations above 
-        print("hellLLLOLOL**************")
 
         try:
-            print(request.user)
-            user_location = request.user.userlocation
-            print(user_location)
-            print("user DATATATATATAT")
+            user_location = request.user.user_location
             location_data = {
                 "city": user_location.city,
                 "region": user_location.region,
@@ -38,7 +34,8 @@ class get_user_api_location(APIView):
     # POST: Save the user's location (e.g., after registration)
     def post(self, request):
         try:
-            response = requests.get("http://ip-api.com/json/?fields=61439")
+            response = requests.get("http://ip-api.com/json/{query}?fields=country,region,city,lat,lon")
+            print("RESPONSSSSSS LINE 42 views.py", response)
             if response.status_code == 200:
                 data = response.json()
                 # Save user location to the database
@@ -57,6 +54,7 @@ class get_user_api_location(APIView):
                 return JsonResponse({"error": "Unable to fetch location data"}, status=500)
         except requests.RequestException as e:
             return JsonResponse({"error": str(e)}, status=500)
+
 
     # # PUT: Update the user's location (e.g., after changing location)
     # def put(self, request):
