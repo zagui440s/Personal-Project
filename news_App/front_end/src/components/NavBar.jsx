@@ -16,6 +16,9 @@ const NavBar = ({ user, setUser }) => {
             <Link to="/">Home</Link>
           </li>
           <li>
+            <Link to="/profile">Profile</Link> {/* Add Profile link */}
+          </li>
+          <li>
             <button onClick={logOut}>Sign Out</button>
           </li>
         </>

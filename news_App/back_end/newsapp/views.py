@@ -108,5 +108,17 @@ class Log_out(APIView):
         request.user.auth_token.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
+class UpdateProfile(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        data = request.data
+        serializer = NewsUserSerializer(user, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 ## adding comment before testing api

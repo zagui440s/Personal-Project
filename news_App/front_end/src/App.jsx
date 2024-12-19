@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import LocationInfo from "./components/LocationInfo"; // Import LocationInfo
 import "./App.css"; // Import the CSS file
 
 function App() {
@@ -22,11 +21,10 @@ function App() {
 
   return (
     <>
-      <Outlet context={{ user, setUser }} />
       <NavBar user={user} setUser={setUser} />
       <div className="container left-align">
         <h3>Welcome {user?.email}</h3>
-        <LocationInfo user={user} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+        <Outlet context={{ user, setUser, selectedLocation, setSelectedLocation }} />
       </div>
     </>
   );

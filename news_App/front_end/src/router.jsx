@@ -3,6 +3,7 @@ import App from "./App";
 import HomePage from "./pages/HomePage";
 import RegistrationPage from "./pages/RegistrationPage";
 import LogInPage from "./pages/LogInPage";
+import ProfilePage from "./pages/ProfilePage"; // Import ProfilePage
 import { getInfo } from "./utilities";
 
 const router = createBrowserRouter([
@@ -20,8 +21,12 @@ const router = createBrowserRouter([
         element: <RegistrationPage />,
       },
       {
-        path: "/login/", // Add LogInPage route
+        path: "/login/",
         element: <LogInPage />,
+      },
+      {
+        path: "/profile/",
+        element: <ProfilePage />, // Add ProfilePage route
       },
     ],
   },
