@@ -19,6 +19,9 @@ const NavBar = ({ user, setUser }) => {
             <Link to="/profile">Profile</Link> {/* Add Profile link */}
           </li>
           <li>
+              <Link to="/articles/">Articles</Link> {/* Add Articles link */}
+            </li>
+          <li>
             <button onClick={logOut}>Sign Out</button>
           </li>
         </>
