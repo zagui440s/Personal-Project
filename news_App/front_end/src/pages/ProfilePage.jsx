@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import LocationSelector from '../components/LocationSelector';
 import LocationInfo from '../components/LocationInfo'; // Import LocationInfo
 import axios from 'axios';
 
 const ProfilePage = () => {
   const { user, setUser, selectedLocation, setSelectedLocation } = useOutletContext();
+  const navigate = useNavigate();
   const [bio, setBio] = useState(user?.bio || '');
   const [useDefaultLocation, setUseDefaultLocation] = useState(true); // State to toggle location choice
   const [city, setCity] = useState(user?.user_location?.city || '');
@@ -75,6 +76,23 @@ const ProfilePage = () => {
     }
   };
 
+  const handleDelete = async () => {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    try {
+      await axios.delete('http://127.0.0.1:8000/api/v1/users/profile/', {
+        headers: {
+          'Authorization': `Token ${token}` // Include the token in the headers
+        }
+      });
+      setUser(null);
+      alert('Profile deleted successfully');
+      navigate('/register'); // Redirect to the registration page or any other page
+    } catch (error) {
+      console.error('Error deleting profile:', error);
+      alert('Failed to delete profile');
+    }
+  };
+
   return (
     <div>
       <h2>Profile Page</h2>
@@ -122,6 +140,7 @@ const ProfilePage = () => {
         )}
         <button type="submit">Update Profile</button>
       </form>
+      <button onClick={handleDelete} style={{ marginTop: '20px', backgroundColor: 'red', color: 'white' }}>Delete Profile</button>
     </div>
   );
 };
