@@ -13,6 +13,10 @@ from .serializers import NewsUserSerializer
 import requests
 
 class Sign_up(APIView):
+
+    authentication_classes = []  # No authentication required
+    permission_classes = []
+
     def post(self, request):
         request.data["username"] = request.data["email"]
         try:
@@ -69,10 +73,12 @@ def get_client_ip(request):
     return request.META.get('REMOTE_ADDR')
     
 
-
         
      
 class Log_in(APIView):
+
+    authentication_classes = []  # No authentication required
+    permission_classes = []
 
     def post(self, request):
         email = request.data.get("email")
@@ -126,4 +132,4 @@ class UpdateProfile(APIView):
         user.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
-## adding comment before testing api
+## adding comment before testing api8**********************

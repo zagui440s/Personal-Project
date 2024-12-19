@@ -1,41 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const ArticlesPage = () => {
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No token found');
-        return;
-      }
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/articles/articles/', {
-          headers: {
-            'Authorization': `Token ${token}`
-          }
-        });
-        console.log('Response data:', response.data); // Log the response data
-        setArticles(response.data);
-      } catch (error) {
-        console.error('Error fetching articles:', error);
+        const response = await axios.get("http://127.0.0.1:8000/api/v1/articles/fetch-articles/");
+        setArticles(response.data); // No need to slice, backend already returns 3 articles
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching articles:", err);
+        setError("Could not fetch articles.");
+        setLoading(false);
       }
     };
 
     fetchArticles();
   }, []);
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p style={{ color: "red" }}>{error}</p>;
+  }
+
   return (
     <div>
-      <h2>Articles</h2>
+      <h2>Business Articles</h2>
       <ul>
-        {articles.map(article => (
-          <li key={article.id}>
+        {articles.map((article, index) => (
+          <li key={index}>
             <h3>{article.title}</h3>
-            <p>{article.summary}</p>
-            <a href={article.url} target="_blank" rel="noopener noreferrer">Read more</a>
+            <p>{article.description}</p>
+            <a href={article.url} target="_blank" rel="noopener noreferrer">
+              Read more
+            </a>
           </li>
         ))}
       </ul>
