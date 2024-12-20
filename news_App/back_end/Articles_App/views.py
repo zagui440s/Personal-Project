@@ -74,6 +74,6 @@ class FetchArticles(APIView):
             response = requests.get(url)
             response.raise_for_status()
             articles = response.json().get('articles', [])
-            return Response(articles[:3], status=HTTP_200_OK)  # Return only the first 3 articles
+            return Response(articles[:10], status=HTTP_200_OK)  # Return only the first 3 articles
         except requests.exceptions.RequestException as e:
             return Response({"error": "Failed to fetch articles from News API."}, status=HTTP_500_INTERNAL_SERVER_ERROR)
