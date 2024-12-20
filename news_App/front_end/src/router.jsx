@@ -6,6 +6,7 @@ import LogInPage from "./pages/LogInPage";
 import ProfilePage from "./pages/ProfilePage"; // Import ProfilePage
 import ArticlesPage from "./pages/ArticlesPage"; // Import ArticlesPage
 import { getInfo } from "./utilities";
+import SavedArticlesPage from "./pages/SavedArticlesPage";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/articles/",
         element: <ArticlesPage />, // Add ArticlesPage route
+      },
+      {
+        path: "/favorite-articles/",
+        element: <SavedArticlesPage />, // Add ArticlesPage route
       },
     ],
   },

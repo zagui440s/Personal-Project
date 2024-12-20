@@ -9,5 +9,5 @@ class ArticleSerializer(serializers.ModelSerializer):
 class SavedArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedArticle
-        fields = '__all__'
-        read_only_fields = ['user']
+        fields = ['id', 'user', 'title', 'description', 'url', 'saved_on', 'is_favorite', 'notes']
+        read_only_fields = ['user', 'saved_on']

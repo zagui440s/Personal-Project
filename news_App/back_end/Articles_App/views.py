@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 from django.conf import settings
 from .models import Article, SavedArticle
 from .serializers import ArticleSerializer, SavedArticleSerializer
@@ -30,6 +30,39 @@ class SavedArticleListView(APIView):
             return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
+class SavedArticleDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, pk, user):
+        try:
+            return SavedArticle.objects.get(pk=pk, user=user)
+        except SavedArticle.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        saved_article = self.get_object(pk, request.user)
+        if saved_article is None:
+            return Response(status=HTTP_404_NOT_FOUND)
+        serializer = SavedArticleSerializer(saved_article)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        saved_article = self.get_object(pk, request.user)
+        if saved_article is None:
+            return Response(status=HTTP_404_NOT_FOUND)
+        serializer = SavedArticleSerializer(saved_article, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        saved_article = self.get_object(pk, request.user)
+        if saved_article is None:
+            return Response(status=HTTP_404_NOT_FOUND)
+        saved_article.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
+
 class FetchArticles(APIView):
     authentication_classes = []  # No authentication required
     permission_classes = []  # No permission required
@@ -43,4 +76,4 @@ class FetchArticles(APIView):
             articles = response.json().get('articles', [])
             return Response(articles[:3], status=HTTP_200_OK)  # Return only the first 3 articles
         except requests.exceptions.RequestException as e:
-            return Response({"error": str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": "Failed to fetch articles from News API."}, status=HTTP_500_INTERNAL_SERVER_ERROR)
