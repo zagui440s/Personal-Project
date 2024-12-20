@@ -20,7 +20,7 @@ const HomePage = () => {
         }
 
         // Make the API call with the token in the Authorization header
-        const response = await axios.get("http://127.0.0.1:8000/api/v1/location/", {
+        const response = await axios.get("http://127.0.0.1:8000/api/v1/users/info/", {
           headers: {
             Authorization: `Token ${token}`, // Pass token here
           },

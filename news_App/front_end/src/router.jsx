@@ -3,7 +3,10 @@ import App from "./App";
 import HomePage from "./pages/HomePage";
 import RegistrationPage from "./pages/RegistrationPage";
 import LogInPage from "./pages/LogInPage";
+import ProfilePage from "./pages/ProfilePage"; // Import ProfilePage
+import ArticlesPage from "./pages/ArticlesPage"; // Import ArticlesPage
 import { getInfo } from "./utilities";
+import SavedArticlesPage from "./pages/SavedArticlesPage";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +23,20 @@ const router = createBrowserRouter([
         element: <RegistrationPage />,
       },
       {
-        path: "/login/", // Add LogInPage route
+        path: "/login/",
         element: <LogInPage />,
+      },
+      {
+        path: "/profile/",
+        element: <ProfilePage />, // Add ProfilePage route
+      },
+      {
+        path: "/articles/",
+        element: <ArticlesPage />, // Add ArticlesPage route
+      },
+      {
+        path: "/favorite-articles/",
+        element: <SavedArticlesPage />, // Add ArticlesPage route
       },
     ],
   },

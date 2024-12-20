@@ -26,4 +26,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/users/", include("newsapp.urls")),  # User-related endpoints
     path("api/v1/location/", include("userLocation_App.urls")),  # Location-related endpoints
+    path("api/v1/articles/", include("Articles_App.urls")),  # Articles-related endpoints
 ]

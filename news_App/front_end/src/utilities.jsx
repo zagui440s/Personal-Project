@@ -6,7 +6,7 @@ export const api = axios.create({
 
 export const userRegistration = async (formData) => {
   const { email, password, registration } = formData;
-  console.log(`Sending request to users/${registration ? "signup/" : "login/"}`); // Add this line 
+  console.log(`Sending request to users/${registration ? "signup/" : "login/"}`);
   let response = await api.post(
     `users/${registration ? "signup/" : "login/"}`,
     {
@@ -15,37 +15,40 @@ export const userRegistration = async (formData) => {
     }
   );
   if (response.status === 200 || response.status === 201){
-    let {token, user} = response.data
-    localStorage.setItem('token', token)
-    api.defaults.headers.common['Authorization'] = `Token ${token}`
-    return user
+    let {token, user} = response.data;
+    localStorage.setItem('token', token);
+    api.defaults.headers.common['Authorization'] = `Token ${token}`;
+    return user;
   }
-  alert(response.data, "utilities line 22")
-  return null
+  alert(response.data, "utilities line 22");
+  return null;
 };
 
 export const signOut = async(user) => {
-  let response = await api.post('users/logout/')
+  let response = await api.post('users/logout/');
   if (response.status === 204){
-    localStorage.removeItem("token")
-    delete api.defaults.headers.common['Authorization']
-    return null
+    localStorage.removeItem("token");
+    delete api.defaults.headers.common['Authorization'];
+    return null;
   }
-  alert("failure to log out")
-  return user
-}
+  alert("failure to log out");
+  return user;
+};
 
 export const getInfo = async() => {
-  let token = localStorage.getItem('token')
+  let token = localStorage.getItem('token');
   if (token){
-    api.defaults.headers.common['Authorization'] = `Token ${token}`
-    let response = await api.get("users/info/")
-    if (response.status === 200){
-      return response.data
+    api.defaults.headers.common['Authorization'] = `Token ${token}`;
+    try {
+      let response = await api.get("users/info/");
+      if (response.status === 200){
+        return response.data;
+      }
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      return null;
     }
-    return null
+  } else {
+    return null;
   }
-  else{
-    return null
-  }
-}
+};
