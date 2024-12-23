@@ -3,12 +3,13 @@ import { useOutletContext, useNavigate } from 'react-router-dom';
 import LocationSelector from '../components/LocationSelector';
 import LocationInfo from '../components/LocationInfo'; // Import LocationInfo
 import axios from 'axios';
+import '../App.css'; // Import the CSS file
 
 const ProfilePage = () => {
   const { user, setUser, selectedLocation, setSelectedLocation } = useOutletContext();
   const navigate = useNavigate();
   const [bio, setBio] = useState(user?.bio || '');
-  const [useDefaultLocation, setUseDefaultLocation] = useState(true); // State to toggle location choice
+  const [useDefaultLocation, setUseDefaultLocation] = useState(false); // State to toggle location choice
   const [city, setCity] = useState(user?.user_location?.city || '');
   const [region, setRegion] = useState(user?.user_location?.region || '');
   const [country, setCountry] = useState(user?.user_location?.country || '');
@@ -65,7 +66,7 @@ const ProfilePage = () => {
         },
       }, {
         headers: {
-          'Authorization': `Token ${token}` // Include the token in the headers
+          'Authorization': `Token ${token}`
         }
       });
       setUser(response.data);
@@ -94,53 +95,58 @@ const ProfilePage = () => {
   };
 
   return (
-    <div>
-      <h2>Profile Page</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Bio:</label>
-          <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={useDefaultLocation}
-              onChange={(e) => setUseDefaultLocation(e.target.checked)}
-            />
-            Use default location
-          </label>
-        </div>
-        {useDefaultLocation ? (
-          <LocationInfo user={{ user_location: { city, region, country, latitude, longitude } }} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
-        ) : (
-          <>
-            <div>
-              <label>City:</label>
-              <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
-            </div>
-            <div>
-              <label>Region:</label>
-              <input type="text" value={region} onChange={(e) => setRegion(e.target.value)} />
-            </div>
-            <div>
-              <label>Country:</label>
-              <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} />
-            </div>
-            <div>
-              <label>Latitude:</label>
-              <input type="text" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
-            </div>
-            <div>
-              <label>Longitude:</label>
-              <input type="text" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
-            </div>
-            <LocationSelector selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
-          </>
-        )}
-        <button type="submit">Update Profile</button>
-      </form>
-      <button onClick={handleDelete} style={{ marginTop: '20px', backgroundColor: 'red', color: 'white' }}>Delete Profile</button>
+    <div className="center-container">
+      <div className="profile-box">
+        <h2>Profile Page</h2>
+        <p>{user?.email}</p>
+        <p>Location: {city}, {region}, {country}</p>
+        <p>Coordinates: {latitude}, {longitude}</p>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Bio:</label>
+            <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
+          </div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={useDefaultLocation}
+                onChange={(e) => setUseDefaultLocation(e.target.checked)}
+              />
+              Use default location
+            </label>
+          </div>
+          {useDefaultLocation ? (
+            <LocationInfo user={{ user_location: { city, region, country, latitude, longitude } }} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+          ) : (
+            <>
+              <div>
+                <label>City:</label>
+                <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
+              </div>
+              <div>
+                <label>Region:</label>
+                <input type="text" value={region} onChange={(e) => setRegion(e.target.value)} />
+              </div>
+              <div>
+                <label>Country:</label>
+                <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} />
+              </div>
+              <div>
+                <label>Latitude:</label>
+                <input type="text" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
+              </div>
+              <div>
+                <label>Longitude:</label>
+                <input type="text" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
+              </div>
+              <LocationSelector selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+            </>
+          )}
+          <button type="submit">Update Profile</button>
+        </form>
+        <button onClick={handleDelete} className="delete">Delete Profile</button>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../App.css"; // Import the CSS file
 
 const SavedArticlesPage = () => {
   const [savedArticles, setSavedArticles] = useState([]);
@@ -54,14 +55,22 @@ const SavedArticlesPage = () => {
     <div>
       <h2>Saved Articles</h2>
       <ul>
-        {savedArticles.map((article) => (
-          <li key={article.id}>
+        {savedArticles.map((article, index) => (
+          <li key={index} className="article-container">
             <h3>{article.title}</h3>
             <p>{article.description}</p>
-            <a href={article.url} target="_blank" rel="noopener noreferrer">
+            <button
+              className="read-more-button"
+              onClick={() => window.open(article.url, "_blank", "noopener noreferrer")}
+            >
               Read more
-            </a>
-            <button onClick={() => handleDelete(article.id)}>Delete</button>
+            </button>
+            <button
+              className="remove-article-button"
+              onClick={() => handleDelete(article.id)}
+            >
+              Remove Article
+            </button>
           </li>
         ))}
       </ul>

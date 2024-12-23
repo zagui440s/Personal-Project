@@ -118,6 +118,20 @@ class UpdateProfile(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        user = request.user
+        serializer = NewsUserSerializer(user)
+        return Response(serializer.data, status=HTTP_200_OK)
+
+    def post(self, request):
+        user = request.user
+        data = request.data
+        serializer = NewsUserSerializer(user, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
     def put(self, request):
         user = request.user
         data = request.data

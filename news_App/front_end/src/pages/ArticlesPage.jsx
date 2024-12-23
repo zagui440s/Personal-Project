@@ -7,6 +7,7 @@ const ArticlesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [missingArticle, setMissingArticle] = useState(null);
+  const [favoritedArticles, setFavoritedArticles] = useState(new Set()); // State to track favorited articles
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -41,6 +42,7 @@ const ArticlesPage = () => {
           Authorization: `Token ${token}` // Send the token in the Authorization header
         }
       });
+      setFavoritedArticles(new Set(favoritedArticles).add(article.url)); // Mark article as favorited
       alert("Article saved to favorites!");
     } catch (err) {
       console.error("Error saving article:", err);
@@ -91,10 +93,19 @@ const ArticlesPage = () => {
               </div>
             ) : (
               <>
-                <a href={article.url} target="_blank" rel="noopener noreferrer">
+                <button
+                  className="read-more-button"
+                  onClick={() => window.open(article.url, "_blank", "noopener noreferrer")}
+                >
                   Read more
-                </a>
-                <button onClick={() => handleFavorite(article)}>Favorite</button>
+                </button>
+                <button
+                  className={`favorite-button ${favoritedArticles.has(article.url) ? 'favorited' : ''}`}
+                  onClick={() => handleFavorite(article)}
+                  disabled={favoritedArticles.has(article.url)}
+                >
+                  {favoritedArticles.has(article.url) ? 'Favorited' : 'Favorite'}
+                </button>
               </>
             )}
           </li>

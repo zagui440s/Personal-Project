@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { signOut } from "../utilities";
+import '../App.css'
 
 const NavBar = ({ user, setUser }) => {
   const logOut = async () => {

@@ -1,16 +1,161 @@
 .left-align {
-    margin-left: 0;
-    padding-left: 0;
-  }
-  
-  .articles-placeholder {
-    border: 2px solid red;
-    padding: 10px;
-    margin-top: 20px;
-  }
+  margin-left: 0;
+  padding-left: 0;
+}
 
-  .article-container {
-    border: 2px solid red;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
+.articles-placeholder {
+  border: 2px solid red;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.article-container {
+  border: 2px solid rgb(13, 0, 255);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px; /* Add rounded edges */
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.profile-box {
+  background-color: #f9f9f9;
+  border: 1px solid blue;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 500px;
+  margin: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form > div {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button.delete {
+  background-color: red;
+}
+
+button.delete:hover {
+  background-color: darkred;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #333;
+  padding: 10px;
+  list-style: none;
+  margin: 0; /* Corrected margin */
+  border: 1px solid #444; /* Added border */
+  border-radius: 8px; /* Added border-radius */
+}
+
+.navbar li {
+  margin: 0 10px;
+  list-style: none; /* Remove list-style */
+}
+
+.navbar a {
+  color: white; /* Changed color to white */
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.navbar a:hover {
+  background-color: #555;
+}
+
+.read-more-button {
+  background-color: yellowgreen;
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.read-more-button:hover {
+  background-color: #0056b3;
+}
+
+.favorite-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.favorite-button.favorited {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.remove-article-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.remove-article-button:hover {
+  background-color: darkred;
+}
+
+button {
+  margin-right: 10px;
+}
