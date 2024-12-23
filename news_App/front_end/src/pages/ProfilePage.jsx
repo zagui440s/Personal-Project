@@ -103,8 +103,8 @@ const ProfilePage = () => {
         <p>Coordinates: {latitude}, {longitude}</p>
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Bio:</label>
-            <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
+            {/* <label>Bio:</label> */}
+            {/* <textarea value={bio} onChange={(e) => setBio(e.target.value)} /> */}
           </div>
           <div>
             <label>

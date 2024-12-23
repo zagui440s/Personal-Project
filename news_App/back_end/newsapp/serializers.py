@@ -33,3 +33,4 @@ class NewsUserSerializer(serializers.ModelSerializer):
         
         instance.save()
         return instance
+
