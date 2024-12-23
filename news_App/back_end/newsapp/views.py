@@ -146,4 +146,3 @@ class UpdateProfile(APIView):
         user.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
-## adding comment before testing api8**********************

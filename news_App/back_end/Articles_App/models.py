@@ -18,7 +18,7 @@ class Article(models.Model):
 class SavedArticle(models.Model):
     user = models.ForeignKey(NewsUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, default="No title provided") 
-    description = models.TextField(default="No description provided")
+    description = models.TextField(default="No description provided", blank=True, null=True)
     url = models.URLField(default="No URL provided")
     saved_on = models.DateTimeField(auto_now_add=True)
     is_favorite = models.BooleanField(default=False)

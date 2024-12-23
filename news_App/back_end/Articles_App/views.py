@@ -24,10 +24,12 @@ class SavedArticleListView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = SavedArticleSerializer(data=request.data)
+        print(request.data)
+        serializer = SavedArticleSerializer(data=request.data, partial= True)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=HTTP_201_CREATED)
+        # print(serializer.errors)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 class SavedArticleDetailView(APIView):

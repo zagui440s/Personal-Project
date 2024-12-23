@@ -13,6 +13,7 @@ const ArticlesPage = () => {
     const fetchArticles = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/api/v1/articles/fetch-articles/");
+        console.log(response.data)
         setArticles(response.data); // No need to slice, backend already returns 10 articles
         setLoading(false);
       } catch (err) {
@@ -26,9 +27,10 @@ const ArticlesPage = () => {
   }, []);
 
   const handleFavorite = async (article) => {
+    console.log(article)
     try {
       const token = localStorage.getItem('token'); // Retrieve the token from local storage
-      if (!article.title || !article.description || !article.url) {
+      if (!article.title || !article.url) {
         throw new Error("Missing required article fields");
       }
       const articleData = {
@@ -37,6 +39,7 @@ const ArticlesPage = () => {
         url: article.url,
         // Add any other fields that the backend expects
       };
+      console.log(articleData)
       await axios.post("http://127.0.0.1:8000/api/v1/articles/saved-articles/", articleData, {
         headers: {
           Authorization: `Token ${token}` // Send the token in the Authorization header
