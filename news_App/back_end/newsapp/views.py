@@ -14,7 +14,7 @@ import requests
 
 class Sign_up(APIView):
 
-    authentication_classes = []  # No authentication required
+    authentication_classes = []
     permission_classes = []
 
     def post(self, request):
@@ -44,7 +44,6 @@ def get_location_from_ip(request):
             response = requests.get("https://ipinfo.io/75.49.124.40/json")
             if response.status_code == 200:
                 data = response.json()
-                print("DATATATATATATATA line 54", data)
                 city, region, country = data.get("city"), data.get("region"), data.get("country")
                 latitude, longitude = map(float, data.get("loc", "0.0,0.0").split(","))
                 return {
@@ -77,7 +76,7 @@ def get_client_ip(request):
      
 class Log_in(APIView):
 
-    authentication_classes = []  # No authentication required
+    authentication_classes = []
     permission_classes = []
 
     def post(self, request):
@@ -103,8 +102,6 @@ class Info(APIView):
     
         serialized_user = NewsUserSerializer(request.user).data 
         return Response(serialized_user, status=HTTP_200_OK)
-    
-    # MAYBE INFO PUT ******8PUT HERE???  TO UPDATE INFO/LOCATION
 
 class Log_out(APIView):
     authentication_classes = [TokenAuthentication]
