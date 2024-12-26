@@ -48,7 +48,8 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>Home Page</h1>
+      <h1>Home Page, Welcome to the Daily Business</h1>
+      <h3>The one stop shop for all business news related to your country</h3>
     </div>
   );
 };

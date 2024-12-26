@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 from django.conf import settings
-from .models import Article, SavedArticle
-from .serializers import ArticleSerializer, SavedArticleSerializer
+from .models import Article, SavedArticle, Comment
+from .serializers import ArticleSerializer, SavedArticleSerializer, CommentSerializer
 import requests
 
 class ArticleListView(APIView):
@@ -79,3 +79,19 @@ class FetchArticles(APIView):
             return Response(articles[:10], status=HTTP_200_OK)  # Return only the first 3 articles
         except requests.exceptions.RequestException as e:
             return Response({"error": "Failed to fetch articles from News API."}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+class CommentListCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, article_id):
+        comments = Comment.objects.filter(article_id=article_id)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, article_id):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user, article_id=article_id)
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)

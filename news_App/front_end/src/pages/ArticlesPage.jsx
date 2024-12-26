@@ -8,12 +8,14 @@ const ArticlesPage = () => {
   const [error, setError] = useState("");
   const [missingArticle, setMissingArticle] = useState(null);
   const [favoritedArticles, setFavoritedArticles] = useState(new Set()); // State to track favorited articles
+  const [comments, setComments] = useState({}); // State to track comments for each article
+  const [newComments, setNewComments] = useState({}); // State to track new comment input for each article
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/api/v1/articles/fetch-articles/");
-        console.log(response.data)
+        // console.log(response.data)
         setArticles(response.data); // No need to slice, backend already returns 10 articles
         setLoading(false);
       } catch (err) {
@@ -73,6 +75,41 @@ const ArticlesPage = () => {
     }
   };
 
+  const fetchComments = async (articleId) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/v1/articles/${articleId}/comments/`);
+      setComments(prevComments => ({ ...prevComments, [articleId]: response.data }));
+    } catch (err) {
+      console.error("Error fetching comments:", err);
+    }
+  };
+
+  const handleAddComment = async (articleId) => {
+    console.log("Adding comment to article with ID:", articleId); // Log the article ID
+    if (!articleId) {
+      console.error("Article ID is undefined");
+      return;
+    }
+    try {
+      const token = localStorage.getItem('token');
+      const url = `http://127.0.0.1:8000/api/v1/articles/${articleId}/comments/`;
+      console.log("POST URL:", url); // Log the URL
+      await axios.post(url, { content: newComments[articleId] }, {
+        headers: {
+          Authorization: `Token ${token}`
+        }
+      });
+      setNewComments(prevNewComments => ({ ...prevNewComments, [articleId]: "" }));
+      fetchComments(articleId); // Refresh comments after adding a new one
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
+  };
+
+  const handleNewCommentChange = (articleId, value) => {
+    setNewComments(prevNewComments => ({ ...prevNewComments, [articleId]: value }));
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -85,34 +122,54 @@ const ArticlesPage = () => {
     <div>
       <h2>Business Articles</h2>
       <ul>
-        {articles.map((article, index) => (
-          <li key={index} className="article-container">
-            <h3>{article.title}</h3>
-            <p>{article.description}</p>
-            {missingArticle && missingArticle.url === article.url ? (
-              <div>
-                <p style={{ color: "red" }}>Article doesn't exist.</p>
-                <button onClick={() => handleDelete(article)}>Delete</button>
-              </div>
-            ) : (
-              <>
-                <button
-                  className="read-more-button"
-                  onClick={() => window.open(article.url, "_blank", "noopener noreferrer")}
-                >
-                  Read more
-                </button>
-                <button
-                  className={`favorite-button ${favoritedArticles.has(article.url) ? 'favorited' : ''}`}
-                  onClick={() => handleFavorite(article)}
-                  disabled={favoritedArticles.has(article.url)}
-                >
-                  {favoritedArticles.has(article.url) ? 'Favorited' : 'Favorite'}
-                </button>
-              </>
-            )}
-          </li>
-        ))}
+        {articles.map((article, index) => {
+          // console.log("Article object:", article); // Log the article object
+          return (
+            <li key={index} className="article-container">
+              <h3>{article.title}</h3>
+              <p>{article.description}</p>
+              {missingArticle && missingArticle.url === article.url ? (
+                <div>
+                  <p style={{ color: "red" }}>Article doesn't exist.</p>
+                  <button onClick={() => handleDelete(article)}>Delete</button>
+                </div>
+              ) : (
+                <>
+                  <button
+                    className="read-more-button"
+                    onClick={() => window.open(article.url, "_blank", "noopener noreferrer")}
+                  >
+                    Read more
+                  </button>
+                  <button
+                    className={`favorite-button ${favoritedArticles.has(article.url) ? 'favorited' : ''}`}
+                    onClick={() => handleFavorite(article)}
+                    disabled={favoritedArticles.has(article.url)}
+                  >
+                    {favoritedArticles.has(article.url) ? 'Favorited' : 'Favorite'}
+                  </button>
+                  <div className="comments-section">
+                    <h4>Comments</h4>
+                    <ul>
+                      {comments[article.id]?.map(comment => (
+                        <li key={comment.id}>
+                          <p><strong>{comment.user}</strong>: {comment.content}</p>
+                        </li>
+                      ))}
+                    </ul>
+                    <input
+                      type="text"
+                      value={newComments[article.id] || ""}
+                      onChange={(e) => handleNewCommentChange(article.id, e.target.value)}
+                      placeholder="Add a comment"
+                    />
+                    <button onClick={() => handleAddComment(article.id)}>Submit</button>
+                  </div>
+                </>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
