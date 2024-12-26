@@ -7,9 +7,9 @@ const ArticlesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [missingArticle, setMissingArticle] = useState(null);
-  const [favoritedArticles, setFavoritedArticles] = useState(new Set()); // State to track favorited articles
-  const [comments, setComments] = useState({}); // State to track comments for each article
-  const [newComments, setNewComments] = useState({}); // State to track new comment input for each article
+  const [favoritedArticles, setFavoritedArticles] = useState(new Set());
+  const [comments, setComments] = useState({});
+  const [newComments, setNewComments] = useState({});
 
   useEffect(() => {
     const fetchArticles = async () => {
