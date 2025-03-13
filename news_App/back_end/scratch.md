@@ -18,3 +18,5 @@
     "email" : "cat@aol.com",
     "password" : "cat"
     }
+
+"cleaned up project, easier to see"
