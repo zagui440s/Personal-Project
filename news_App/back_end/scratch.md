@@ -20,3 +20,8 @@
     }
 
 "cleaned up project, easier to see"
+
+{
+    "email" : "work1@aol.com",
+    "password" : "work"
+    }
