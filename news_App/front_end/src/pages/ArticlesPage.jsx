@@ -29,7 +29,7 @@ const ArticlesPage = () => {
   }, []);
 
   const handleFavorite = async (article) => {
-    console.log(article)
+    // console.log(article)
     try {
       const token = localStorage.getItem('token'); // Retrieve the token from local storage
       if (!article.title || !article.url) {
@@ -41,7 +41,7 @@ const ArticlesPage = () => {
         url: article.url,
         // Add any other fields that the backend expects
       };
-      console.log(articleData)
+      // console.log(articleData)
       await axios.post("http://127.0.0.1:8000/api/v1/articles/saved-articles/", articleData, {
         headers: {
           Authorization: `Token ${token}` // Send the token in the Authorization header
@@ -75,14 +75,14 @@ const ArticlesPage = () => {
     }
   };
 
-  const fetchComments = async (articleId) => {
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/v1/articles/${articleId}/comments/`);
-      setComments(prevComments => ({ ...prevComments, [articleId]: response.data }));
-    } catch (err) {
-      console.error("Error fetching comments:", err);
-    }
-  };
+  // const fetchComments = async (articleId) => {
+  //   try {
+  //     const response = await axios.get(`http://127.0.0.1:8000/api/v1/articles/${articleId}/comments/`);
+  //     setComments(prevComments => ({ ...prevComments, [articleId]: response.data }));
+  //   } catch (err) {
+  //     console.error("Error fetching comments:", err);
+  //   }
+  // };
 
   const handleAddComment = async (articleId) => {
     console.log("Adding comment to article with ID:", articleId); // Log the article ID
