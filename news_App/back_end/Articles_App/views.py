@@ -24,7 +24,7 @@ class SavedArticleListView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        print(request.data)
+        # print(request.data)
         serializer = SavedArticleSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(user=request.user)
@@ -65,8 +65,8 @@ class SavedArticleDetailView(APIView):
         return Response(status=HTTP_204_NO_CONTENT)
 
 class FetchArticles(APIView):
-    authentication_classes = []  # No authentication required
-    permission_classes = []  # No permission required
+    authentication_classes = []
+    permission_classes = []
 
     def get(self, request):
         api_key = settings.NEWS_API_KEY
@@ -75,6 +75,6 @@ class FetchArticles(APIView):
             response = requests.get(url)
             response.raise_for_status()
             articles = response.json().get('articles', [])
-            return Response(articles[:10], status=HTTP_200_OK)  # Return only the first 10 articles
+            return Response(articles[:20], status=HTTP_200_OK)
         except requests.exceptions.RequestException as e:
             return Response({"error": "Failed to fetch articles from News API."}, status=HTTP_500_INTERNAL_SERVER_ERROR)
